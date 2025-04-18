@@ -27,29 +27,48 @@ Optionally you can set the random seed in nodejs so you'd get the same numbers a
 * node --random_seed=1337
 */
 Array.from(Array(5), Math.random)
-// [0.9311600617849973, 0.3551442693830502, 0.7923158995678377, 0.787777942408997, 0.376372264303491]
+/*
+[
+  0.0026343227180927187,
+  0.2751195310657766,
+  0.14987294404396945,
+  0.6754760504043595,
+  0.4807256393350896
+]
+*/
 ```
 
-Next we feed these random numbers into the python script (line 23).
+You can use `main.py` at the root of this repo as a demo.
 
-```py
+- Create a Python script
+- Import `V8RandomnessPredictor`
+- Create a variable to store generated random numbers from above
+- Create `V8RandomnessPredictor` instance
+- Call `predict_next()`
+- Verify output is correct
+
+```python
+from V8RandomnessPredictor import V8RandomnessPredictor
+
 sequence = [
-  0.9311600617849973,
-  0.3551442693830502,
-  0.7923158995678377,
-  0.787777942408997,
-  0.376372264303491,
-][::-1]
+  0.0026343227180927187,
+  0.2751195310657766,
+  0.14987294404396945,
+  0.6754760504043595,
+  0.4807256393350896
+]
+
+predictor = V8RandomnessPredictor(sequence)
+next = predictor.predict_next()
+print(next)
 ```
 
-Run the script.
+You can call `predict_next()` as many times as you would like, or until the generated cache of random numbers, that V8 creates internally, is exhausted.
 
-```sh
-$ python3 main.py
+Once that pool is exhausted the cache is refreshed with a different seed.
 
-# Outputs
-# {'se_state1': 6942842836049070467, 'se_state0': 4268050313212552111}
-# 0.23137147109312428
+```python
+next_ten_predictions = [predictor.predict_next() for _ in range(10)]
 ```
 
 ## Resources
