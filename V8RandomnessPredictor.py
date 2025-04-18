@@ -13,13 +13,7 @@ class V8RandomnessPredictor:
 
     def predict_next(self) -> Tuple[None, float]:
         """
-        const next = await this.#predict();
-        predictions[i] = next;
-        this.#internalSequence.unshift(next);
-        // Only keep 4 numbers since that seems to be what we need to successfully predict.
-        if (this.#internalSequence.length > 4) {
-            this.#internalSequence.splice(4);
-        }
+        Predict next random number.
         """
         next = self.__predict()
         if next is None:
